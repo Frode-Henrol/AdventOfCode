@@ -8,17 +8,15 @@ def main():
     filename = "ad7.csv"
     
     data = load_file(filename)
-    print(data)
+    #print(data)
     
     correct_equa, goal_sum = solve(data)
-    for i in correct_equa:
-        print(i)
 
     print(goal_sum)
     
     
 def permutations(list_of_numbers):
-    characters = ['*', '+']
+    characters = ['*', '+','||']
     length = len(list_of_numbers) - 1
 
     # Generate all permutations
@@ -47,7 +45,7 @@ def solve(data):
     goal_sum = 0
     
     for equa in data:
-        print(f"We check: {equa}")
+        #print(f"We check: {equa}")
         goal = equa[0]
         numbers = equa[1]
         
@@ -59,8 +57,13 @@ def solve(data):
             correct_equa.append(equa)
             goal_sum+=goal
             continue
-    return correct_equa, goal
+
+        #print(f"goal_sum {goal_sum}")
+
+
+    return correct_equa, goal_sum
         
+
 def brute_force(numbers, goal):
     # List for all equation perms
     permutation_list = permutations(numbers)
@@ -76,36 +79,37 @@ def brute_force(numbers, goal):
         
         # skal lige lave 
         combined = "".join(sub_equation)
-        print(f"Goal: {goal} and the equa gives: {eval(combined)} and {combined}")
-        if goal == eval_left_to_right(combined):
-            print(f"{combined} is = {goal}")
+        #print(f"Goal: {goal} and the equa gives: {eval_left_to_right(numbers, perm)} and {combined}")
+
+        if goal == eval_left_to_right(numbers, perm):
+            #print(f"{combined} is = {goal}")
             
             return True
     return False
-    
-def eval_left_to_right(expression):
+
+
+
+def eval_left_to_right(numbers, perm):
     # Split the expression into tokens (numbers and operators)
-    tokens = expression.split()
+    #print(numbers)
+    #print(perm)
 
-    # Start with the first number
-    result = int(tokens[0])
+    sum_perm = int(numbers[0])
 
-    # Loop through the rest of the tokens, performing operations left to right
-    for i in range(1, len(tokens), 2):
-        operator = tokens[i]
-        next_num = int(tokens[i + 1])
-        
-        if operator == '+':
-            result += next_num
-        elif operator == '-':
-            result -= next_num
-        elif operator == '*':
-            result *= next_num
-        elif operator == '/':
-            result //= next_num  # Use integer division for consistency
-
-    return result
+    for i in range(len(perm)):  
+        if perm[i] == "*":
+            sum_perm = sum_perm * int(numbers[i+1])
             
+        elif perm[i] == "+":
+            sum_perm = sum_perm + int(numbers[i+1])
+
+        elif perm[i] == "||":
+            sum_perm = int(str(sum_perm)+str(numbers[i+1]))
+
+
+    return sum_perm
+
+
 
 if __name__ == "__main__":
     main()
