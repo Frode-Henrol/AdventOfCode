@@ -5,8 +5,8 @@ def main():
         data = file.read()
         
     parsed_string = parse_data(data)
-    print(parsed_string)
-    print(len(parsed_string))
+    #print(parsed_string)
+    #print(len(parsed_string))
 
     digit_count = 0
     for char in parsed_string:
@@ -14,12 +14,18 @@ def main():
             digit_count+=1
     
     print(f"Digitcount: {digit_count}")
-    
-    for i in range(digit_count):
-        shift_data(parsed_string)
+
+    all_string = []
+    while True:
         
-        if i % 1000 == 0:
-            print(f"{i} out of {digit_count}")
+        shift_data(parsed_string)
+        old = parsed_string[:]
+        all_string.append(old)
+
+        if len(all_string)>5 and all_string[-1] == all_string[-3]:
+            break
+        
+
 
     sum = calc_checksum(parsed_string, digit_count)
     print(sum)
@@ -33,6 +39,7 @@ def calc_checksum(parsed_string, digit_count):
     for i in range(digit_count):
         sum += int(parsed_string[i])*i
     return sum
+
 
 def shift_data(parsed_string, show_print = False):
 
