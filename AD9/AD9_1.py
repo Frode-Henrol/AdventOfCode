@@ -1,7 +1,7 @@
 
 
 def main():
-    with open("ad9.txt", "r") as file:
+    with open("test.txt", "r") as file:
         data = file.read()
         
     parsed_string = parse_data(data)
@@ -57,7 +57,8 @@ def shift_data(parsed_string, show_print = False):
                     if show_print:
                         print(f"{parsed_string}")
                     return parsed_string
-                    
+
+
     
 
 def parse_data(data):
