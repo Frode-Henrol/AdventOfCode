@@ -1,6 +1,9 @@
 import csv
+import time
+
 
 def main():
+    start_time = time.time()  # Record the start time
     # Open csv and make farm map
     filename = "ad12.csv"
     farm_map = []
@@ -20,8 +23,10 @@ def main():
                 fences_total, crops_total = search_field(farm_map, coord, visited_coords, crop_type)
                 total_price += fences_total*crops_total
     
-    print(total_price)
-        
+    end_time = time.time()  # Record the end time
+    execution_time = end_time - start_time
+    print(f"{total_price}, {execution_time:.6f}s")
+    
 def search_field(farm_map, coord, visited_coords, crop_type):
     visited_coords.add(coord)
     neighbor_offsets = [ (-1, 0), (1, 0), (0, -1), (0, 1) ]
@@ -43,8 +48,15 @@ def search_field(farm_map, coord, visited_coords, crop_type):
         else:
             fences_total+=1
      
+
+     
     return fences_total, crops_total 
-            
+
+
+def check_neighbors():
+ pass
+
+
 
 if __name__ == "__main__":
     main()
