@@ -34,3 +34,11 @@ nx.draw_spring(G, with_labels=True)
 plt.show()
 
 
+def add_note(graph, old_coord, new_coord):
+    
+    # Later add weights
+    graph.add_weighted_edges_from([old_coord, new_coord])
+    
+    
+
+
