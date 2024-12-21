@@ -30,15 +30,18 @@ def main():
     print(cost)
     
     # Use nx.planar_layout to calculate positions
-    pos = nx.planar_layout(graph_coords)
+    #pos = nx.planar_layout(graph_coords)
     
     # Draw the graph with the computed planar layout
-    nx.draw(graph_coords, pos, with_labels=True, node_color='lightblue', node_size=500, font_size=10)
+    #nx.draw(graph_coords, pos, with_labels=True, node_color='lightblue', node_size=500, font_size=10)
     
     # Draw edge labels (weights)
-    edge_labels = nx.get_edge_attributes(graph_coords, 'weight')
-    nx.draw_networkx_edge_labels(graph_coords, pos, edge_labels=edge_labels, font_size=8)
-    
+    # edge_labels = nx.get_edge_attributes(graph_coords, 'weight')
+    #nx.draw_networkx_edge_labels(graph_coords, pos, edge_labels=edge_labels, font_size=8)
+    nx.draw_kamada_kawai(graph_coords, with_labels=True)
+
+    print(f"Number of visited coords: {len(visited_coords)} and graph node count: {len(graph_coords.nodes)}")
+
     plt.show()
 
 
@@ -55,6 +58,9 @@ def bfs_solve_maze(map_wh, start_coord, visited_coords, path, graph_coords, end_
         
         visited.add(current_coord)
         visited_coords.append(current_coord)
+        cost = 1 if current_path and current_path[-1] == direction else 1000
+        if len(current_path)>=2:
+            graph_coords.add_weighted_edges_from([(current_coord, visited_coords[-1], cost)])
         
         if current_coord == end_coord:
             path.extend(current_path)
@@ -72,8 +78,8 @@ def bfs_solve_maze(map_wh, start_coord, visited_coords, path, graph_coords, end_
             next_coord = (x + move[0], y + move[1])
             if next_coord not in visited:
                 queue.append((next_coord, current_path + [direction]))
-                cost = 1 if current_path and current_path[-1] == direction else 1000
-                graph_coords.add_weighted_edges_from([(current_coord, next_coord, cost)])
+                
+                
 
 
 def calc_path_score(path_coords):
